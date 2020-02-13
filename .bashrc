@@ -43,9 +43,11 @@ if ${use_color} ; then
     fi
 
     if [[ ${EUID} == 0 ]] ; then
-        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+        PS1="\e[1;31m[\h\e[1;36m \W\e[1;31m]\$\e[0m "
     else
-        PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
+        E0B0=$'\uE0B0'
+        PS1="\[\e[30;42m\] \u@\h \[\e[32;100m\]${E0B0}\[\e[97m\] \W \[\e[0;90m\]${E0B0}\[\e[0m\] "
+        unset E0B0
     fi
 
     alias ls='ls --color=auto'
@@ -55,9 +57,9 @@ if ${use_color} ; then
 else
     if [[ ${EUID} == 0 ]] ; then
         # show root@ when we don't have colors
-        PS1='\u@\h \W \$ '
+        PS1="\u@\h \W \$ "
     else
-        PS1='\u@\h \w \$ '
+        PS1="\u@\h \w \$ "
     fi
 fi
 
@@ -90,6 +92,4 @@ shopt -s globstar
 # enable extended globbing expressions 
 shopt -s extglob
 
-for file in ~/.bash_profile ~/.bash_aliases ~/.profile ; do
-    [[ -f ${file} ]] && source ${file}
-done
+[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
