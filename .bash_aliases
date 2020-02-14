@@ -2,8 +2,7 @@
 
 if which lsd &>/dev/null ; then
     alias ll="lsd -halF --group-dirs=first"
-    alias lt="lsd -AF --tree"
-    alias llt="lsd -hAlF --tree --group-dirs=first"
+    alias tree="lsd -AF --group-dirs=first --tree"
 else
     alias ll="ls -halF --group-directories-first"
 fi
