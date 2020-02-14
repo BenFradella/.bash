@@ -1,10 +1,16 @@
 #!/bin/bash
 
+expand_alias()
+{
+    local alias=$({ alias $1 || echo $1; } 2>/dev/null)
+    echo "${alias#*=}"
+}
+
 if which lsd &>/dev/null ; then
     alias ll="lsd -halF --group-dirs=first"
     alias tree="lsd -AF --group-dirs=first --tree"
 else
-    alias ll="ls -halF --group-directories-first"
+    alias ll="$(expand_alias ls) -halF --group-directories-first"
 fi
 
 alias repwd='cd "${PWD}"' # refresh pwd when it gets pulled out from unerneath you
