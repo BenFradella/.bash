@@ -25,23 +25,23 @@ for_each()
     local action="$1" ; shift
     local it
  
-    until [[ $# == 0 ]] ; do
+    eval 'until [[ $# == 0 ]] ; do
         it="$1"
         if [[ -p "${it}" ]] ; then
-            # "it" is a named pipe. Read items from it. `for_each '...' <(...'
+            # "it" is a named pipe. Read items from it. `for_each "..." <(...`
             while read it ; do
-                eval "${action}"
+                '"${action}"'
             done < ${it}
         else
             # "it" is a literal
-            eval "${action}"
+            '"${action}"'
         fi
         shift
     done
-    # We've run out of explicit arguments. Check if any are being piped to us
+    # No explicit arguments. Check if any are being piped to us
     while read it ; do
-        eval "${action}"
-    done
+        '"${action}"'
+    done'
 }
 
 any()
